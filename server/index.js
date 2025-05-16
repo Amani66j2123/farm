@@ -31,10 +31,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
  const con =
  `mongodb+srv://${ENV.DB_USER}:${ENV.DB_PASSWORD}@${ENV.DB_CLUSTER}/${ENV.DB_NAME}?retryWrites=true&w=majority&appName=farmCluster`;
 mongoose
-  .connect(con, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(con)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
   //Middleware 

@@ -13,7 +13,7 @@ export const savePost = createAsyncThunk(
   "posts/savePost",
   async (postData, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://localhost:3001/savePost", {
+      const response = await axios.post(`${ENV.SERVER_URL}/savePost`, {
         postMsg: postData.postMsg,
         email: postData.email,
       });
@@ -28,7 +28,7 @@ export const getPosts = createAsyncThunk(
   "post/getPosts",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:3001/getPosts");
+      const response = await axios.get(`${ENV.SERVER_URL}/getPosts`);
       return response.data.posts;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to fetch posts");
@@ -41,7 +41,7 @@ export const likePost = createAsyncThunk(
   async (postData, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `http://localhost:3001/likePost/${postData.postId}`,
+        `${ENV.SERVER_URL}/likePost/${postData.postId}`,
         { userId: postData.userId }
       );
       return response.data.post;
@@ -57,7 +57,7 @@ export const dislikePost = createAsyncThunk(
   async (postData, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `http://localhost:3001/dislikePost/${postData.postId}`,
+        `${ENV.SERVER_URL}/dislikePost/${postData.postId}`,
         { userId: postData.userId }
       );
       return response.data.post;

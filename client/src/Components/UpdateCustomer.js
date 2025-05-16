@@ -24,7 +24,7 @@ const UpdateCustomer = () => {
 
   let { id } = useParams();
   useEffect(() => {
-    Axios.get(`http://localhost:3001/getCustomer/${id}`)
+    Axios.get(`${ENV.SERVER_URL}/getCustomer/${id}`)
       .then((response) => {
         setFullName(response.data.result.fullName);
         setCivilNo(response.data.result.civilNo);
@@ -77,7 +77,7 @@ const UpdateCustomer = () => {
     e.preventDefault();
 
     try {
-      const response = await Axios.put(`http://localhost:3001/updateC/${id}`, {
+      const response = await Axios.put(`${ENV.SERVER_URL}/updateC/${id}`, {
         fullName: fullName,
         civilNo: civilNo,
         phoneNo: phoneNo,

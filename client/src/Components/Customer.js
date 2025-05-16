@@ -85,7 +85,7 @@ const Customer = () => {
     }
 
     try {
-      const res = await Axios.post("http://localhost:3001/checkAvailability", {
+      const res = await Axios.post(`${ENV.SERVER_URL}/checkAvailability`, {
         date,
         time: selectedTime,
       });
@@ -126,7 +126,7 @@ const Customer = () => {
     }
 
     try {
-      const res = await Axios.post("http://localhost:3001/addc", {
+      const res = await Axios.post(`${ENV.SERVER_URL}/addc`, {
         fullName,
         civilNo,
         phoneNo,

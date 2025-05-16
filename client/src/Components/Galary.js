@@ -2,6 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 import p1 from "./1.jpg";
 import p2 from "./2.jpg";
 import p3 from "./3.jpg";
@@ -24,109 +25,36 @@ import p19 from "./19.jpg";
 import p20 from "./20.jpg";
 import p21 from "./21.jpg";
 
+const images = [
+  p1, p2, p3, p4, p5, p6, p7, p8, p9, p10,
+  p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21
+];
+
 const Gallery = () => {
-    const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      autoplay: true,
-      autoplaySpeed: 2000,
-      arrows: false,
-      
-    };
-  
-    return (
-      <div > 
-        
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    arrows: false,
+  };
+
+  return (
+    <div className="gallery-wrapper">
+      <div className="gallery-card">
         <Slider {...settings}>
-          <div>
-            <img src={p1} alt=" "  />
-            
-          </div>
-          <div>
-            <img src={p2} alt=" " />
-           
-          </div>
-          <div>
-            <img src={p3} alt=" " />
-           
-          </div>
-          <div>
-            <img src={p4} alt="" />
-            
-          </div> <div>
-            <img src={p5} alt="" />
-           
-          </div>
-          <div>
-            <img src={p6} alt=" " />
-            
-          </div>
-          <div>
-            <img src={p7} alt="" />
-            
-          </div>
-          
-           
-          <div>
-            <img src={p8} alt="" />
-           
-          </div>
-          <div>
-            <img src={p9} alt=" " />
-            
-          </div>
-          <div>
-            <img src={p10} alt=" " />
-          
-          </div>
-          <div>
-            <img src={p11} alt="" />
-           
-          </div> <div>
-            <img src={p12} alt=" " />
-            
-          </div>
-          <div>
-            <img src={p13} alt=" " />
-            
-          </div>
-          <div>
-            <img src={p14} alt=" " />
-            
-          </div>
-          <div>
-            <img src={p15} alt=" " />
-            
-          </div>
-          <div>
-            <img src={p16} alt=" " />
-           
-          </div>
-          <div>
-            <img src={p17} alt=" " />
-          
-          </div>
-          <div>
-            <img src={p18} alt=" " />
-            
-          </div> <div>
-            <img src={p19} alt=" " />
-            
-          </div>
-          <div>
-            <img src={p20} alt="" />
-          
-          </div>
-          <div>
-            <img src={p21} alt="" />
-            
-          </div>
+          {images.map((img, index) => (
+            <div className="image-slide" key={index}>
+              <img src={img} alt={`slide-${index}`} className="fill-image" />
+            </div>
+          ))}
         </Slider>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 export default Gallery;

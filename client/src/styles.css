@@ -694,3 +694,33 @@ textarea.form-control {
 .navbar-toggler {
   border-color: rgba(255, 255, 255, 0.5);
 }
+.gallery-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full screen height */
+  background-color: hsla(139, 72%, 75%, 0.557);
+}
+
+.gallery-card {
+  width: 95%;
+  max-width: 1000px;
+  height: 600px; /* Increased height for larger image */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff52;
+}
+
+.image-slide {
+  width: 100%;
+  height: 100%;
+}
+
+.fill-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+

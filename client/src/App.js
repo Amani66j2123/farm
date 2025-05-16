@@ -20,7 +20,6 @@ import Login from "./Components/login";
 import Register from "./Components/register";
 import Mangeadmin from "./Components/Mangeadmin";
 import Payment from "./Components/Payment";
-import ManageCustomers from "./Components/Mangecustomer";
 import MangeCinfo from "./Components/MangeCinfo";
 import MyReservations from "./Components/MyReservations"; // Import MyReservations
 import CheckEmail from "./Components/CheckEmail"; // Import CheckEmail
@@ -63,7 +62,6 @@ const App = () => {
                 <Route path="profile" element={<Profile />} />
                 <Route path="mangeadmin" element={<Mangeadmin />} />
                 <Route path="payment" element={<Payment />} />
-                <Route path="mangecustomer" element={<ManageCustomers />} />
                 <Route path="mangeCinfo" element={<MangeCinfo />} />
                 <Route path="/myReservations" element={<MyReservations />} />{" "}
                 {/* Add the route for email verification success page */}

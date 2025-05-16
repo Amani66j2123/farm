@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getPosts, likePost, dislikePost } from "../Features/PostSlice";
-import { Table } from "reactstrap";
+import { Table, Button } from "reactstrap";
 import moment from "moment";
 import { FaHeart, FaRegHeart, FaThumbsDown, FaRegThumbsDown } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -15,6 +15,10 @@ const Posts = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 10;
 
   useEffect(() => {
     dispatch(getPosts());
@@ -36,6 +40,17 @@ const Posts = () => {
     return <div className="text-center py-4">Loading posts...</div>;
   }
 
+  // Calculate pagination indices
+  const indexOfLast = currentPage * postsPerPage;
+  const indexOfFirst = indexOfLast - postsPerPage;
+  const currentPosts = posts?.slice(indexOfFirst, indexOfLast);
+
+  const totalPages = Math.ceil((posts?.length || 0) / postsPerPage);
+
+  const goToPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className="posts-container p-3">
       <Table bordered hover responsive className="post-table">
@@ -48,7 +63,7 @@ const Posts = () => {
           </tr>
         </thead>
         <tbody>
-          {posts?.map((post) => {
+          {currentPosts?.map((post) => {
             const isLiked = post.likes?.users?.includes(userId);
             const isDisliked = post.dislikes?.users?.includes(userId);
             return (
@@ -91,6 +106,40 @@ const Posts = () => {
           })}
         </tbody>
       </Table>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="pagination-controls d-flex justify-content-center align-items-center mt-3">
+          <Button
+            color="secondary"
+            disabled={currentPage === 1}
+            onClick={() => goToPage(currentPage - 1)}
+            className="me-2"
+          >
+            Previous
+          </Button>
+
+          {[...Array(totalPages)].map((_, idx) => (
+            <Button
+              key={idx + 1}
+              color={currentPage === idx + 1 ? "primary" : "light"}
+              onClick={() => goToPage(idx + 1)}
+              className="me-1"
+            >
+              {idx + 1}
+            </Button>
+          ))}
+
+          <Button
+            color="secondary"
+            disabled={currentPage === totalPages}
+            onClick={() => goToPage(currentPage + 1)}
+            className="ms-2"
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

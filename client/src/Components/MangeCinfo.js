@@ -16,6 +16,7 @@ import {
   ModalBody,
   ModalFooter
 } from 'reactstrap';
+import * as ENV from "../config"; 
 
 const ManageCinfo = () => {
   const [users, setUsers] = useState([]);
@@ -39,7 +40,7 @@ const ManageCinfo = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await Axios.get("http://localhost:3001/manageUsers");
+      const response = await Axios.get(`${ENV.SERVER_URL}/manageUsers`);
       setUsers(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -60,7 +61,7 @@ const ManageCinfo = () => {
     const confirmDelete = window.confirm("Do you really want to delete this user?");
     if (confirmDelete) {
       try {
-        await Axios.delete(`http://localhost:3001/deleteUser/${id}`);
+        await Axios.delete(`${ENV.SERVER_URL}/deleteUser/${id}`);
         setUsers(users.filter(user => user._id !== id));
       } catch (error) {
         console.error("Error deleting user:", error);
@@ -72,10 +73,10 @@ const ManageCinfo = () => {
     try {
       if (isNewUser) {
         const newUser = { ...currentUser, password: "NewUser123@" };
-        const response = await Axios.post("http://localhost:3001/registerUser", newUser);
+        const response = await Axios.post(`${ENV.SERVER_URL}/registerUser`, newUser);
         setUsers([...users, response.data]);
       } else {
-        await Axios.put(`http://localhost:3001/updateUser/${currentUser._id}`, currentUser);
+        await Axios.put(`${ENV.SERVER_URL}/updateUser/${currentUser._id}`, currentUser);
         setUsers(users.map(user => (user._id === currentUser._id ? currentUser : user)));
       }
       setCurrentUser(null);

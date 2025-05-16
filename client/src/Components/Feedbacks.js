@@ -3,7 +3,7 @@ import Rating from "@mui/material/Rating";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { MdFeedback } from "react-icons/md";
+import * as ENV from "../config"; 
 
 const Feedbacks = () => {
   const name = useSelector((state) => state.users.user.name);
@@ -92,9 +92,7 @@ const Feedbacks = () => {
   return (
     <div className="container py-5">
       <div className="text-center mb-5">
-        <h1 className="fw-bold gradient-text">
-          <MdFeedback className="me-2" /> Customer Feedback
-        </h1>
+        <h2 className="mb-4 text-center text-primary fw-bold">🛠️ Update Feedback</h2>
         <p className="text-muted">Help us improve your experience 🪴</p>
       </div>
 

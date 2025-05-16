@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaPhone, FaEnvelope, FaCalendarAlt, FaEdit, FaTrash, FaSearch } from "react-icons/fa";
+import * as ENV from "../config"; 
 
 const Manage = () => {
   const [listOfFeedbacks, setListOfFeedbacks] = useState([]);
@@ -24,7 +25,7 @@ const Manage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await Axios.get("http://localhost:3001/manage");
+        const response = await Axios.get(`${ENV.SERVER_URL}/manage`);
         setListOfFeedbacks(response.data.feedbacks);
         setCountRecords(response.data.count);
       } catch (error) {
@@ -38,7 +39,7 @@ const Manage = () => {
     try {
       const confirmDelete = window.confirm("Do you really want to delete?");
       if (confirmDelete) {
-        const response = await Axios.delete(`http://localhost:3001/deletef/${id}`);
+        const response = await Axios.delete(`${ENV.SERVER_URL}/deletef/${id}`);
         setListOfFeedbacks(listOfFeedbacks.filter((val) => val._id !== id));
         setCountRecords(response.data.count);
         alert(response.data.msg);

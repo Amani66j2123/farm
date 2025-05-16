@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash, FaUser, FaCalendarAlt, FaPhone, FaEnvelope, FaMoneyBillWave, FaUsers, FaChild, FaGlassCheers, FaCreditCard, FaInfoCircle, FaSearch } from "react-icons/fa";
+import * as ENV from "../config"; 
 
 const ManageC = () => {
   const [listOfCustomer, setlistOfCustomer] = useState([]);
@@ -17,7 +18,7 @@ const ManageC = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await Axios.get("http://localhost:3001/manageC");
+        const response = await Axios.get(`${ENV.SERVER_URL}1/manageC`);
         setlistOfCustomer(response.data.customers);
         setcountRecords(response.data.count);
       } catch (error) {
@@ -43,7 +44,7 @@ const ManageC = () => {
       const confirmDelete = window.confirm("Are you sure you want to delete this customer?");
       if (confirmDelete) {
         setIsLoading(true);
-        const response = await Axios.delete(`http://localhost:3001/deleteC/${id}`);
+        const response = await Axios.delete(`${ENV.SERVER_URL}/deleteC/${id}`);
         setlistOfCustomer(listOfCustomer.filter((val) => val._id !== id));
         setcountRecords(response.data.count);
         alert(response.data.msg);
@@ -60,7 +61,7 @@ const ManageC = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await Axios.get("http://localhost:3001/manageC");
+        const response = await Axios.get(`${ENV.SERVER_URL}/manageC`);
         setlistOfCustomer(response.data.customers);
         setcountRecords(response.data.count);
       } catch (error) {

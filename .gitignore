@@ -4,6 +4,8 @@
 #node_modules
 node_modules/
 .cache/
+
+
 /.pnp
 .pnp.js
 
@@ -25,4 +27,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # Ignore all .env files 
-.env*
+.env* 

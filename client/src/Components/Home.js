@@ -8,6 +8,7 @@ import SharePosts from './SharePost';
 import Posts from './Posts';
 import { Link } from 'react-router-dom';
 import { FaLeaf, FaCalendarAlt } from 'react-icons/fa';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // For Collapse functionality
 
 const Home = () => {
     const user = useSelector((state) => state.users.user);

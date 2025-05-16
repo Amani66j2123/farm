@@ -4,7 +4,7 @@ import Axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as ENV from "../config"; 
-
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // For Collapse functionality
 const Feedbacks = () => {
   const name = useSelector((state) => state.users.user.name);
   const navigate = useNavigate();
@@ -85,14 +85,14 @@ const Feedbacks = () => {
       setResponseMsg(response.data || "Feedback submitted!");
     } catch (error) {
       console.error("Error submitting feedback:", error);
-      setResponseMsg("❌ Error submitting feedback.");
+      setResponseMsg("❌ Error submitting feedback. make sure date is correct  date");
     }
   };
 
   return (
     <div className="container py-5">
       <div className="text-center mb-5">
-        <h2 className="mb-4 text-center text-primary fw-bold">🛠️ Update Feedback</h2>
+        <h2 className="mb-4 text-center text-primary fw-bold">🪴Feedback</h2>
         <p className="text-muted">Help us improve your experience 🪴</p>
       </div>
 
@@ -177,7 +177,7 @@ const Feedbacks = () => {
             <p><strong>Full Name:</strong> {fullName}</p>
             <p><strong>Phone No:</strong> {phoneNo}</p>
             <p><strong>Email:</strong> {email}</p>
-            <p><strong>Date:</strong> {date} ({day})</p>
+            <p><strong>Date:</strong> {date ? new Date(date).toLocaleDateString('en-US', { year: '2-digit', month: '2-digit', day: '2-digit' }) : ''} ({day})</p>
             <p><strong>Farm Opinion:</strong> {opinionFarm}</p>
             <p><strong>Service Opinion:</strong> {opinionServices}</p>
             <p><strong>Cleanliness Rating:</strong> {ratingClean} / 5</p>

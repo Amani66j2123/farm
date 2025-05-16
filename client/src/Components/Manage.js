@@ -117,7 +117,7 @@ const Manage = () => {
                   <td>{feedback.fullName}</td>
                   <td>{feedback.phoneNo}</td>
                   <td>{feedback.email}</td>
-                  <td>{feedback.date}</td>
+                   <td>{new Date(feedback.date).toLocaleDateString()}</td>
                   <td>{feedback.opinionFarm}</td>
                   <td>{feedback.opinionServices}</td>
                   <td>{feedback.ratingClean}</td>

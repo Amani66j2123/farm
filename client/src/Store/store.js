@@ -1,32 +1,32 @@
 import { configureStore } from "@reduxjs/toolkit";
-import usersReducer from "../Features/UserSlice.js"; //import the reducer
+import usersReducer from "../Features/UserSlice.js";
 import postReducer from "../Features/PostSlice";
-import { persistStore, persistReducer } from "redux-persist"; 
-import storage from "redux-persist/lib/storage"; // Uses localStorage by default 
-import { combineReducers } from "redux"; 
-const persistConfig = { 
-  key: "reduxstore", // The key to identify the persisted state in storage
-  storage,     // The storage method (localStorage) 
-  };
-  const rootReducer = combineReducers({ 
-    users: usersReducer, // Manage users slice of the state 
-    posts: postReducer, // Manage posts slice of the state 
-    });
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { combineReducers } from "redux";
 
-  const persistedReducer = persistReducer(persistConfig, rootReducer); 
+const persistConfig = {
+  key: "reduxstore",
+  storage,
+};
 
-
-
-/*
-export const store = configureStore({
-  reducer: {
-    users: usersReducer,
-    posts: postReducer,
-  },
+const rootReducer = combineReducers({
+  users: usersReducer,
+  posts: postReducer,
 });
-*/
-const store = configureStore({ 
-reducer: persistedReducer, // Use the persisted reducer in the store 
-}); 
-const persistore = persistStore(store); // Create persistore for rehydration 
-export { store, persistore }; 
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+const persistore = persistStore(store);
+
+export { store, persistore };

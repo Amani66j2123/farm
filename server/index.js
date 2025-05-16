@@ -492,7 +492,7 @@ app.post("/addf", async (req, res) => {
     });
 
     await Feedback.save();
-    res.status(201).send("Feedback recorded successfully.");
+    res.status(201).send("Feedback submit successfully.");
   } catch (error) {
     console.error("Error adding feedback:", error);
     res.status(500).send("Error adding feedback");
@@ -652,21 +652,21 @@ app.post("/addc", async (req, res) => {
     console.error(error);
     res.status(500).send("Error Adding record");
   }
-});
-// In your server-side code (e.g., server.js or routes file)
+});*/}
+//update reservation
 app.put('/updateC/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const updatedData = req.body;
     
-    // Update logic here (using MongoDB, MySQL, etc.)
+    // Update the logic using MongoDb 
     const result = await CustomerModel.findByIdAndUpdate(id, updatedData, { new: true });
     
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});*/}
+});
 app.get("/manageC", async (req, res) => {
   try {
     const customers = await CustomerModel.find({});
@@ -799,7 +799,20 @@ app.post("/checkAvailability", async (req, res) => {
     });
   }
 });
+app.delete('/deleteC/:id', async (req, res) => {
+  try {
+    const deletedCR = await CustomerModel.findByIdAndDelete(req.params.id);
+    if (!deletedCR) {
+      return res.status(404).json({ msg: 'Customer not found' });
+    }
 
+    const count = await CustomerModel.countDocuments();
+    res.json({ msg: '✅ Customer reservation deleted successfully', count });
+  } catch (err) {
+    console.error('Delete error:', err);
+    res.status(500).json({ msg: '❌ Server error during delete' });
+  }
+});
 app.get("/bookings/:email", async (req, res) => {
   try {
     const bookings = await CustomerModel.find({ email: req.params.email });

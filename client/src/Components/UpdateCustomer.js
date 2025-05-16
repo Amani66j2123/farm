@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
-import * as ENV from "../config"; 
+import * as ENV from "../config";
 
 const UpdateCustomer = () => {
   const [fullName, setFullName] = useState("");
@@ -17,319 +17,263 @@ const UpdateCustomer = () => {
   const [celebrationType, setCelebrationType] = useState("");
   const [payment, setPayment] = useState("");
   const [details, setDetails] = useState("");
-
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [result, setResult] = useState("");
-
   const [responseMsg, setResponseMsg] = useState("");
 
   let { id } = useParams();
+
   useEffect(() => {
     Axios.get(`${ENV.SERVER_URL}/getCustomer/${id}`)
       .then((response) => {
-        setFullName(response.data.result.fullName);
-        setCivilNo(response.data.result.civilNo);
-        setEmail(response.data.result.email);
-        setPhoneNo(response.data.result.phoneNo);
-        setDay(response.data.result.day);
-        setDate(response.data.result.date);
-        setTime(response.data.result.time);
-        setCustomerType(response.data.result.customerType);
-        setNumAdults(response.data.result.numAdults);
-        setNumChildren(response.data.result.numChildren);
-        setCelebrationType(response.data.result.celebrationType);
-        setPayment(response.data.result.payment);
-        setDetails(response.data.result.details);
-        setTotalPrice(response.data.result.totalPrice);
+        const data = response.data.result;
+        setFullName(data.fullName);
+        setCivilNo(data.civilNo);
+        setEmail(data.email);
+        setPhoneNo(data.phoneNo);
+        setDay(data.day);
+        setDate(data.date);
+        setTime(data.time);
+        setCustomerType(data.customerType);
+        setNumAdults(data.numAdults);
+        setNumChildren(data.numChildren);
+        setCelebrationType(data.celebrationType);
+        setPayment(data.payment);
+        setDetails(data.details);
+        setTotalPrice(data.totalPrice);
+        setResult(data.result);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.error(err));
   }, [id]);
 
-  // Function to compute the total price and result
   const computePrice = () => {
-    let totalPrice = 35;
-
-    // Calculate base price
-    if (day === "4" || day === "5" || day === "6") {
-      // Add 15% for Thursday, Friday, and Saturday
-      totalPrice += totalPrice + totalPrice * 0.15;
-    } else {
-      totalPrice += totalPrice;
+    let basePrice = 35.0;
+    let finalPrice = basePrice;
+    if (["Thursday", "Friday", "Saturday"].includes(day)) {
+      finalPrice += basePrice * 0.15;
     }
-    setTotalPrice(totalPrice);
-
-    // Calculate net price with tax (5%)
-    const netPrice = totalPrice + totalPrice * 0.05;
-
-    setTotalPrice(netPrice);
-
-    // Compute result based on total price
-    if (netPrice > 0) {
-      setResult("update Rentall");
-    } else {
-      setResult("not update Rentall");
-    }
+    finalPrice += finalPrice * 0.05;
+    setTotalPrice(finalPrice);
+    setResult(finalPrice > 0 ? "Updated book" : "Not Updated book");
   };
 
-  // Function to handle form submission
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await Axios.put(`${ENV.SERVER_URL}/updateC/${id}`, {
-        fullName: fullName,
-        civilNo: civilNo,
-        phoneNo: phoneNo,
-        email: email,
-        day: day,
-        date: date,
-        time: time,
-        customerType: customerType,
-        numAdults: numAdults,
-        numChildren: numChildren,
-        celebrationType: celebrationType,
-        payment: payment,
-        details: details,
-        totalPrice: totalPrice,
-        result: result,
+      const res = await Axios.put(`${ENV.SERVER_URL}/updateC/${id}`, {
+        fullName,
+        civilNo,
+        phoneNo,
+        email,
+        day,
+        date,
+        time,
+        customerType,
+        numAdults,
+        numChildren,
+        celebrationType,
+        payment,
+        details,
+        totalPrice,
+        result,
       });
-
-      setResponseMsg(response.data);
+      setResponseMsg(res.data.message || "🎉 Update successful!");
     } catch (error) {
-      console.error("Error:", error);
+      console.error(error);
+      setResponseMsg("❌ Error while updating. Please try again.");
     }
   };
 
   return (
-    <div className="App">
+    <div className="container py-5">
       <div className="row">
         <div className="col-md-6">
-          <h1 className="title">Update Rental Farm Form</h1>
-          <div className="info">
-            <form onSubmit={handleFormSubmit} className="container form-group mb-3">
-              <table className="centerTable table">
-                <tbody>
-                  <tr>
-                    <td>Full Name:</td>
-                    <td>
-                      <input
-                        type="text"
-                        id="fullName"
-                        className="form-control"
-                        onChange={(e) => setFullName(e.target.value)}
-                        value={fullName}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Civil No:</td>
-                    <td>
-                      <input
-                        type="text"
-                        id="civilNo"
-                        className="form-control"
-                        onChange={(e) => setCivilNo(e.target.value)}
-                        value={civilNo}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Phone No:</td>
-                    <td>
-                      <input
-                        type="text"
-                        id="phoneNo"
-                        className="form-control"
-                        onChange={(e) => setPhoneNo(e.target.value)}
-                        value={phoneNo}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Email:</td>
-                    <td>
-                      <input
-                        type="email"
-                        id="email"
-                        className="form-control"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Day:</td>
-                    <td>
-                      <select
-                        className="form-select"
-                        aria-label="Default select example"
-                        onChange={(e) => setDay(e.target.value)}
-                        value={day}
-                      >
-                        <option value="">Select a day</option>
-                        <option value="1">Saturday</option>
-                        <option value="2">Sunday</option>
-                        <option value="3">Monday</option>
-
-                        <option value="4">Tuesday</option>
-                        <option value="5">Wednesday</option>
-                        <option value="6">Thursday</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Date:</td>
-                    <td>
-                      <input
-                        type="date"
-                        id="date"
-                        className="form-control"
-                        onChange={(e) => setDate(e.target.value)}
-                        value={date}
-                      />
-                      {day && <small className="text-primary">Day: {day}</small>}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Time:</td>
-                    <td>
-                      <input
-                        type="time"
-                        id="time"
-                        className="form-control"
-                        onChange={(e) => setTime(e.target.value)}
-                        value={time}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Customer Type:</td>
-                    <td>
-                      <label value={customerType}>
-                        <input
-                          type="radio"
-                          name="customerType"
-                          value="new"
-                          onChange={(e) => setCustomerType(e.target.value)}
-                        />{" "}
-                        New Customer
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="customerType"
-                          value="existing"
-                          onChange={(e) => setCustomerType(e.target.value)}
-                        />{" "}
-                        Existing Customer
-                      </label>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Number of Adults:</td>
-                    <td>
-                      <input
-                        type="number"
-                        id="numAdults"
-                        className="form-control"
-                        onChange={(e) => setNumAdults(parseInt(e.target.value))}
-                        value={numAdults}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Number of Children:</td>
-                    <td>
-                      <input
-                        type="number"
-                        id="numChildren"
-                        className="form-control"
-                        onChange={(e) => setNumChildren(parseInt(e.target.value))}
-                        value={numChildren}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Celebration Type:</td>
-                    <td>
-                      <select
-                        className="form-select"
-                        aria-label="Default select example"
-                        onChange={(e) => setCelebrationType(e.target.value)}
-                        value={celebrationType}
-                      >
-                        <option value="">Select a type</option>
-                        <option value="birthday">Birthday</option>
-                        <option value="wedding">Wedding</option>
-                        <option value="anniversary">Anniversary</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Payment:</td>
-                    <td>
-                      <label value={payment}>
-                        <input
-                          type="radio"
-                          name="payment"
-                          value="cash"
-                          onChange={(e) => setPayment(e.target.value)}
-                        />{" "}
-                        Cash
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="payment"
-                          value="credit"
-                          onChange={(e) => setPayment(e.target.value)}
-                        />{" "}
-                        Credit
-                      </label>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td> More Details:</td>
-                    <td>
-                      <textarea
-                        id="details"
-                        className="form-control"
-                        onChange={(e) => setDetails(e.target.value)}
-                        value={details}
-                      ></textarea>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <button className="btn btn-success" onClick={computePrice}>
-                Save Rental
-              </button>
-            </form>
-          </div>
-        </div>
-        <div className="col-md-6">
-          <div className="summary">
-            <h1 className="title">Customer Summary</h1>
-            <div className="container form-group mb-3 title">
-              <p>Full Name: {fullName}</p>
-              <p>Civil No: {civilNo}</p>
-              <p>Phone No: {phoneNo}</p>
-              <p>Email: {email}</p>
-              <p>Day: {day}</p>
-              <p>Date: {date}</p>
-              <p>Time: {time}</p>
-              <p>Customer Type: {customerType}</p>
-              <p>Number of Adults: {numAdults}</p>
-              <p>Number of Children: {numChildren}</p>
-              <p>Celebration Type: {celebrationType}</p>
-              <p>Payment: {payment}</p>
-              <p>Details: {details}</p>
-              <p>Total Price(OMR): {totalPrice}</p>
-              <p>Result: {result}</p>
-              <h3>{responseMsg} </h3>
+          <h2 className="text-primary fw-bold mb-4">✏️ Update Rental Form</h2>
+          <form onSubmit={handleFormSubmit} className="p-4 border rounded shadow-sm bg-light">
+            <div className="mb-3">
+              <label className="form-label">Full Name</label>
+              <input
+                type="text"
+                className="form-control"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
             </div>
+            <div className="mb-3">
+              <label className="form-label">Civil No</label>
+              <input
+                type="text"
+                className="form-control"
+                value={civilNo}
+                onChange={(e) => setCivilNo(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Phone No</label>
+              <input
+                type="text"
+                className="form-control"
+                value={phoneNo}
+                onChange={(e) => setPhoneNo(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Email</label>
+              <input
+                type="email"
+                className="form-control"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Date</label>
+              <input
+                type="date"
+                className="form-control"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+              
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Time</label>
+              <input
+                type="time"
+                className="form-control"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Customer Type</label>
+              <div className="form-check">
+                <input
+                  type="radio"
+                  name="customerType"
+                  className="form-check-input"
+                  value="new"
+                  checked={customerType === "new"}
+                  onChange={(e) => setCustomerType(e.target.value)}
+                />
+                <label className="form-check-label">New</label>
+              </div>
+              <div className="form-check">
+                <input
+                  type="radio"
+                  name="customerType"
+                  className="form-check-input"
+                  value="existing"
+                  checked={customerType === "existing"}
+                  onChange={(e) => setCustomerType(e.target.value)}
+                />
+                <label className="form-check-label">Existing</label>
+              </div>
+            </div>
+            <div className="mb-3 d-flex gap-2">
+              <div className="w-50">
+                <label className="form-label">Adults</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={numAdults}
+                  onChange={(e) => setNumAdults(parseInt(e.target.value))}
+                />
+              </div>
+              <div className="w-50">
+                <label className="form-label">Children</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={numChildren}
+                  onChange={(e) => setNumChildren(parseInt(e.target.value))}
+                />
+              </div>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Celebration Type</label>
+              <select
+                className="form-select"
+                value={celebrationType}
+                onChange={(e) => setCelebrationType(e.target.value)}
+              >
+                <option value="">Select</option>
+                <option value="birthday">Birthday</option>
+                <option value="wedding">Wedding</option>
+                <option value="anniversary">Anniversary</option>
+                <option value="familyGather">Family Gather</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Payment Method</label>
+              <div className="form-check">
+                <input
+                  type="radio"
+                  name="payment"
+                  className="form-check-input"
+                  value="cash"
+                  checked={payment === "cash"}
+                  onChange={(e) => setPayment(e.target.value)}
+                />
+                <label className="form-check-label">Cash</label>
+              </div>
+              <div className="form-check">
+                <input
+                  type="radio"
+                  name="payment"
+                  className="form-check-input"
+                  value="credit"
+                  checked={payment === "credit"}
+                  onChange={(e) => setPayment(e.target.value)}
+                />
+                <label className="form-check-label">Credit</label>
+              </div>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Extra Details</label>
+              <textarea
+                className="form-control"
+                value={details}
+                onChange={(e) => setDetails(e.target.value)}
+              />
+            </div>
+            <div className="d-flex gap-2 mt-4">
+              <button
+                type="button"
+                className="btn btn-outline-primary"
+                onClick={computePrice}
+              >
+                💰 Calculate Total
+              </button>
+              <button type="submit" className="btn btn-success">
+                ✅ Update Reservation
+              </button>
+            </div>
+          </form>
+          {responseMsg && (
+            <div className="alert alert-info mt-3">{responseMsg}</div>
+          )}
+        </div>
+
+        <div className="col-md-6">
+          <h2 className="text-secondary fw-bold mb-4">📋 Summary</h2>
+          <div className="p-3 border rounded shadow-sm bg-white">
+            <p><strong>Full Name:</strong> {fullName}</p>
+            <p><strong>Civil No:</strong> {civilNo}</p>
+            <p><strong>Phone:</strong> {phoneNo}</p>
+            <p><strong>Email:</strong> {email}</p>
+<p><strong>Date:</strong> {date ? new Date(date).toLocaleDateString('en-US', { year: '2-digit', month: '2-digit', day: '2-digit' }) : ''} </p>
+            <p><strong>Time:</strong> {time}</p>
+            <p><strong>Day:</strong> {day}</p>
+            <p><strong>Customer Type:</strong> {customerType}</p>
+            <p><strong>Adults:</strong> {numAdults}</p>
+            <p><strong>Children:</strong> {numChildren}</p>
+            <p><strong>Celebration:</strong> {celebrationType}</p>
+            <p><strong>Payment:</strong> {payment}</p>
+            <p><strong>Details:</strong> {details}</p>
+            <p><strong>Total Price OMR:</strong> {totalPrice.toFixed(2)}</p>
+            <p><strong>Result:</strong> {result}</p>
           </div>
         </div>
       </div>

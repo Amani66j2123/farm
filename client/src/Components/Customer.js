@@ -223,7 +223,11 @@ const Customer = () => {
                 <option value="">Select</option>
                 <option value="birthday">Birthday</option>
                 <option value="wedding">Wedding</option>
+                <option value="FamilyGather">Family Gather</option>
+
                 <option value="anniversary">Anniversary</option>
+                <option value="other">Other</option>
+
               </select>
             </div>
             <div className="mb-3">

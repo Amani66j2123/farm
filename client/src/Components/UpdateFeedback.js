@@ -4,6 +4,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaStar, FaRegStar } from "react-icons/fa";
+import * as ENV from "../config"; 
 
 const UpdateFeedback = () => {
   const [fullName, setFullName] = useState("");
@@ -30,7 +31,7 @@ const UpdateFeedback = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/getf/${id}`)
+      .get(`${ENV.SERVER_URL}/getf/${id}`)
       .then((res) => {
         const f = res.data.result;
         setFullName(f.fullName);
@@ -55,7 +56,7 @@ const UpdateFeedback = () => {
     e.preventDefault();
 
     axios
-      .put(`http://localhost:3001/updateF/${id}`, {
+      .put(`${ENV.SERVER_URL}/updateF/${id}`, {
         fullName,
         phoneNo,
         email,

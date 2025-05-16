@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { updateUserProfile } from "../Features/UserSlice";
 import { Form, FormGroup, Input, Label, Button, Row, Col } from "reactstrap";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // For Collapse functionality
+import * as ENV from "../config"; 
 
 import Location from "./Location";
 
@@ -23,7 +24,7 @@ const Profile = () => {
     const [pwd, setPwd] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [newProfilePic, setNewProfilePic] = useState(null);
-    const [imageURL, setImageURL] = useState(profilePic ? `http://localhost:3001/uploads/${profilePic}` : 'https://via.placeholder.com/150');
+    const [imageURL, setImageURL] = useState(profilePic ? `${ENV.SERVER_URL}/uploads/${profilePic}` : 'https://via.placeholder.com/150');
     const [email, setEmail] = useState(currentEmail || '');
 
     useEffect(() => {
@@ -34,7 +35,7 @@ const Profile = () => {
 
     useEffect(() => {
         if (profilePic) {
-            setImageURL(`http://localhost:3001/uploads/${profilePic}`);
+            setImageURL(`${ENV.SERVER_URL}/uploads/${profilePic}`);
         }
     }, [profilePic]);
 

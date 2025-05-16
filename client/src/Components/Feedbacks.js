@@ -69,7 +69,7 @@ const Feedbacks = () => {
     }
 
     try {
-      const response = await Axios.post("http://localhost:3001/addf", {
+      const response = await Axios.post(`${ENV.SERVER_URL}/addf`, {
         fullName,
         phoneNo,
         email,

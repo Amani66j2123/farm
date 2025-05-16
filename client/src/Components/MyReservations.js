@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import * as ENV from "../config"; 
 
 const MyReservations = () => {
   const { email } = useParams(); // 📥 Get email from route
@@ -19,7 +20,7 @@ const MyReservations = () => {
 
     const fetchReservations = async () => {
       try {
-        const res = await Axios.get(`http://localhost:3001/bookings/${email}`);
+        const res = await Axios.get(`${ENV.SERVER_URL}/bookings/${email}`);
         setReservations(res.data || []);
         setLoading(false);
       } catch (err) {

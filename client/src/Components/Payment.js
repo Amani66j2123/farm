@@ -3,6 +3,7 @@ import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaUser, FaPhone, FaEnvelope, FaCalendarAlt, FaMoneyBillWave, FaInfoCircle, FaSearch } from "react-icons/fa";
+import * as ENV from "../config"; 
 
 const Payment = () => {
   const [listOfCustomer, setlistOfCustomer] = useState([]);
@@ -24,7 +25,7 @@ const Payment = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await Axios.get("http://localhost:3001/manageC");
+        const response = await Axios.get(`${ENV.SERVER_URL}/manageC`);
         setlistOfCustomer(response.data.customers);
         setFilteredCustomers(response.data.customers);
         setcountRecords(response.data.count);

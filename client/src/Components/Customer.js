@@ -59,46 +59,38 @@ const Customer = () => {
     setShowSubmit(true);
   };
 
-  const handleDateChange = (e) => {
-    const selectedDate = new Date(e.target.value);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+const handleDateChange = async (e) => {
+  const selectedDate = new Date(e.target.value);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-    if (selectedDate <= today) {
-      alert("Cannot select today or past dates.");
-      return;
+  if (selectedDate <= today) {
+    alert("Cannot select today or past dates.");
+    return;
+  }
+
+  const dayName = dayMap[selectedDate.getDay()];
+  const formattedDate = e.target.value;
+  setDay(dayName);
+  setDate(formattedDate);
+  setShowSubmit(false);
+
+  try {
+    const res = await Axios.post(`${ENV.SERVER_URL}/checkDateAvailability`, {
+      date: formattedDate,
+    });
+    setIsSlotAvailable(res.data.isAvailable);
+    if (!res.data.isAvailable) {
+      alert("The selected date is fully booked.");
     }
+  } catch (error) {
+    console.error("Date check failed:", error);
+    setIsSlotAvailable(false);
+  }
+};
 
-    const dayName = dayMap[selectedDate.getDay()];
-    setDay(dayName);
-    setDate(e.target.value);
-    setIsSlotAvailable(true);
-  };
 
-  const handleTimeChange = async (e) => {
-    const selectedTime = e.target.value;
-    setTime(selectedTime);
-    setShowSubmit(false);
-
-    if (!date) {
-      alert("Select a date first.");
-      return;
-    }
-
-    try {
-      const res = await Axios.post(`${ENV.SERVER_URL}/checkAvailability`, {
-        date,
-        time: selectedTime,
-      });
-      setIsSlotAvailable(res.data.isAvailable);
-      if (!res.data.isAvailable) {
-        alert("Slot already booked.");
-      }
-    } catch (error) {
-      console.error("Time check failed:", error);
-      setIsSlotAvailable(false);
-    }
-  };
+  
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -193,8 +185,10 @@ const Customer = () => {
             </div>
             <div className="mb-3">
               <label>Time</label>
-              <input type="time" className="form-control" value={time} onChange={handleTimeChange} />
-              {!isSlotAvailable && <small className="text-danger">This time is already booked</small>}
+              <input type="time" className="form-control"              
+                   onChange={(e) => setTime(e.target.value)} />
+ 
+              
             </div>
             <div className="mb-3">
               <label>Customer Type</label>

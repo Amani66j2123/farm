@@ -20,6 +20,8 @@ const UpdateCustomer = () => {
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [result, setResult] = useState("");
   const [responseMsg, setResponseMsg] = useState("");
+  const [showSubmit, setShowSubmit] = useState(false);
+  const [isSlotAvailable, setIsSlotAvailable] = useState(true);
 
   let { id } = useParams();
 
@@ -56,6 +58,55 @@ const UpdateCustomer = () => {
     setTotalPrice(finalPrice);
     setResult(finalPrice > 0 ? "Updated book" : "Not Updated book");
   };
+  const dayMap = {
+    0: "Sunday",
+    1: "Monday",
+    2: "Tuesday",
+    3: "Wednesday",
+    4: "Thursday",
+    5: "Friday",
+    6: "Saturday",
+  };
+
+  const handlePhoneNoChange = (e) => {
+    const val = e.target.value;
+    setPhoneNo(val);
+    setIsValidPhoneNo(/^[79][0-9]{7}$/.test(val));
+  };
+
+ 
+  
+
+const handleDateChange = async (e) => {
+  const selectedDate = new Date(e.target.value);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (selectedDate <= today) {
+    alert("Cannot select today or past dates.");
+    return;
+  }
+
+  const dayName = dayMap[selectedDate.getDay()];
+  const formattedDate = e.target.value;
+  setDay(dayName);
+  setDate(formattedDate);
+  setShowSubmit(false);
+
+  try {
+    const res = await Axios.post(`${ENV.SERVER_URL}/checkDateAvailability`, {
+      date: formattedDate,
+    });
+    setIsSlotAvailable(res.data.isAvailable);
+    if (!res.data.isAvailable) {
+      alert("The selected date is fully booked.");
+    }
+  } catch (error) {
+    console.error("Date check failed:", error);
+    setIsSlotAvailable(false);
+  }
+};
+
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -128,12 +179,8 @@ const UpdateCustomer = () => {
             </div>
             <div className="mb-3">
               <label className="form-label">Date</label>
-              <input
-                type="date"
-                className="form-control"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
+               <input type="date" className="form-control" value={date} onChange={handleDateChange} />
+              {day && <small className="text-primary">Day: {day}</small>}
               
             </div>
             <div className="mb-3">

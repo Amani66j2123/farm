@@ -26,6 +26,7 @@ import CheckEmail from "./Components/CheckEmail"; // Import CheckEmail
 import About from "./Components/About";
 
 const App = () => {
+  
   return (
     <div className="back ">
       <div className="container-fluid">

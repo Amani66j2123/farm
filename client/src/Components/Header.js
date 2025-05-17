@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { logout } from "../Features/UserSlice";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,6 +7,7 @@ import logo from "./a_logo.png";
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // For Collapse functionality
+import Collapse from 'react-bootstrap/Collapse';
 
 const Header = () => {
   const { user } = useSelector((state) => state.users);
@@ -32,6 +33,7 @@ const Header = () => {
   const userName = user?.name || "Guest";
   const isAdmin = user?.isAdmin || false;
   const isLoggedIn = !!user;
+
 
   return (
     <div>
@@ -67,7 +69,6 @@ const Header = () => {
                       About Farm
                     </Link>
                   </li>
-              {!isLoggedIn && (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link fs-5" to="/register" onClick={collapseNavbar}>
@@ -80,9 +81,9 @@ const Header = () => {
                     </Link>
                   </li>
                 </>
-              )}
+              
 
-              {isLoggedIn && userName&& (
+              {isLoggedIn && userName &&(
                 <>
                   <li className="nav-item">
                     <Link className="nav-link fs-5" to="/customer" onClick={collapseNavbar}>
@@ -163,8 +164,11 @@ const Header = () => {
         <div className="fs-5 fw-semibold text-success">
           Welcome to Green Farm, {userName}
         </div>
+        
       </div>
     </div>
+
+    
   );
 };
 

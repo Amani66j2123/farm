@@ -688,6 +688,15 @@ app.get("/getCustomer/:id", async (req, res) => {
     res.status(500).send({ error: "Internal server error" });
   }
 });
+app.post('/checkDateAvailability', async (req, res) => {
+  const { date } = req.body;
+  const bookings = await CustomerModel.find({ date }); // Assuming "date" is stored as a string or date-only
+  if (bookings.length > 0) {
+    res.json({ isAvailable: false });
+  } else {
+    res.json({ isAvailable: true });
+  }
+});
 
 app.post("/checkAvailability", async (req, res) => {
   const { date, time } = req.body;

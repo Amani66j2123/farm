@@ -21,6 +21,7 @@ const UpdateCustomer = () => {
   const [result, setResult] = useState("");
   const [responseMsg, setResponseMsg] = useState("");
   const [showSubmit, setShowSubmit] = useState(false);
+  const [isValidPhoneNo, setIsValidPhoneNo] = useState(false);
 
   let { id } = useParams();
 

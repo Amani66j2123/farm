@@ -21,7 +21,6 @@ const UpdateCustomer = () => {
   const [result, setResult] = useState("");
   const [responseMsg, setResponseMsg] = useState("");
   const [showSubmit, setShowSubmit] = useState(false);
-  const [isSlotAvailable, setIsSlotAvailable] = useState(true);
 
   let { id } = useParams();
 
@@ -147,7 +146,7 @@ const handleDateChange = async (e) => {
                 type="text"
                 className="form-control"
                 value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
+                onChange={handlePhoneNoChange}
               />
             </div>
             <div className="mb-3">
@@ -165,7 +164,7 @@ const handleDateChange = async (e) => {
                 type="text"
                 className="form-control"
                 value={phoneNo}
-                onChange={(e) => setIsValidPhoneNo(e.target.value)}
+                onChange={(e) => setPhoneNo(e.target.value)}
               />
             </div>
             <div className="mb-3">

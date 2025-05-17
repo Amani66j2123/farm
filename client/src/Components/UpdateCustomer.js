@@ -165,7 +165,7 @@ const handleDateChange = async (e) => {
                 type="text"
                 className="form-control"
                 value={phoneNo}
-                onChange={(e) => setPhoneNo(e.target.value)}
+                onChange={(e) => setIsValidPhoneNo(e.target.value)}
               />
             </div>
             <div className="mb-3">

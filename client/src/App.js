@@ -31,7 +31,7 @@ const App = () => {
     <div className="back ">
       <div className="container-fluid">
         <Router>
-          {/*1st row */}
+          
           <div className="row">
             <div className="col-md-12 ">
               <Header />
@@ -51,7 +51,7 @@ const App = () => {
                 <Route path="Home" element={<Home />} />
                 <Route path="/about" element={<About/>} />
 
-                <Route path="/customer" element={<Customer />} />
+                <Route path="/customer" element={<Customer/>} />
                 <Route path="/manageC" element={<ManageC />} />
                 <Route path="/feedbacks" element={<Feedbacks />} />
                 <Route path="/gallery" element={<Gallery />} />

@@ -8,12 +8,12 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // For Collapse functionality
 import Collapse from 'react-bootstrap/Collapse';
+import { useState } from "react";
 
 const Header = () => {
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
@@ -30,17 +30,17 @@ const Header = () => {
     }
   };
 
-  const userName = user?.name || "Guest";
-  const isAdmin = user?.isAdmin || false;
+  const userName = user.name || false;
+  const isAdmin = user.isAdmin || false;
   const isLoggedIn = !!user;
-
+  
 
   return (
     <div>
       {/* Navbar with logo and logout */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-success sticky-top shadow-sm">
         <div className="container-fluid">
-          <Link to="/" className="navbar-brand d-flex align-items-center" onClick={collapseNavbar}>
+          <Link to="Home" className="navbar-brand d-flex align-items-center" onClick={collapseNavbar}>
             <img src={logo} alt="Logo" style={{ height: "50px", marginRight: "10px" }} />
             <span className="fs-4 fw-bold text-white">Green Farm</span>
           </Link>
@@ -60,7 +60,7 @@ const Header = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto flex-wrap">
               <li className="nav-item">
-                <Link className="nav-link fs-5" to="/home" onClick={collapseNavbar}>
+                <Link className="nav-link fs-5" to="Home" onClick={collapseNavbar}>
                   Home
                 </Link>
               </li>
@@ -162,7 +162,7 @@ const Header = () => {
       {/* Welcome Section */}
       <div className="bg-light py-4 border-bottom text-center">
         <div className="fs-5 fw-semibold text-success">
-          Welcome to Green Farm, {userName}
+          Welcome to Green Farm {userName}
         </div>
         
       </div>

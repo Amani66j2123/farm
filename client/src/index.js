@@ -15,7 +15,7 @@ root.render(
 <React.StrictMode> 
 {/* Wrapping with PersistGate */} 
 <PersistGate loading={null} persistor={persistore}> 
-<App /> 
+<App/> 
 </PersistGate> 
 </React.StrictMode> 
 </Provider>

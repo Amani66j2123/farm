@@ -198,7 +198,7 @@ const UpdateFeedback = () => {
         <p><strong>Full Name:</strong> {fullName}</p>
         <p><strong>Phone No:</strong> {phoneNo}</p>
         <p><strong>Email:</strong> {email}</p>
-<p><strong>Date:</strong> {date ? new Date(date).toLocaleDateString('en-US', { year: '2-digit', month: '2-digit', day: '2-digit' }) : ''} ({day})</p>
+<p><strong>Date:</strong> {date ? new Date(date).toLocaleDateString('en-US', { year: '2-digit', month: '2-digit', day: '2-digit' }) : ''} </p>
         <p><strong>Opinion (Farm):</strong> {opinionFarm}</p>
         <p><strong>Opinion (Services):</strong> {opinionServices}</p>
         <p><strong>Rating (Cleanliness):</strong> {ratingClean} / 5</p>

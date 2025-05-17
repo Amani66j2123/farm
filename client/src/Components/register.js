@@ -56,7 +56,7 @@ const Register = () => {
           <Col lg="6" className="register-left d-none d-lg-flex align-items-center justify-content-center">
             <div className="text-light text-center px-5">
               <h1 className="display-4 fw-bold">Create Your Account</h1>
-              <p className="lead">Join our platform and explore amazing features.</p>
+              <p className="lead">Join our farm app and explore amazing features.</p>
             </div>
           </Col>
 

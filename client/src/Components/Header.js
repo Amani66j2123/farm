@@ -82,7 +82,7 @@ const Header = () => {
                 </>
               )}
 
-              {isLoggedIn && (
+              {isLoggedIn && userName&& (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link fs-5" to="/customer" onClick={collapseNavbar}>

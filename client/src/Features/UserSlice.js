@@ -20,7 +20,6 @@ export const registerUser = createAsyncThunk(
         name: userData.name,
         email: userData.email,
         password: userData.password,
-        
       });
       
       if (response.data.user) {
@@ -88,11 +87,9 @@ export const updateUserProfile = createAsyncThunk(
         }
       );
 
-      // Optional: store updated user
       if (response.data.user) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
       }
-
       return response.data.user;
     } catch (error) {
       return rejectWithValue(
@@ -101,36 +98,6 @@ export const updateUserProfile = createAsyncThunk(
     }
   }
 );
-
- 
-   
-
-{/*export const updateUserProfile = createAsyncThunk(
-  "users/updateProfile",
-  async ({ email, formData }, { rejectWithValue }) => {
-    try {
-      const response = await axios.put(
-        `${ENV.SERVER_URL}/updateUserProfile/${email}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (response.data.user) {
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-      }
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.error || "Update failed"
-      );
-    }
-  }
-);
-*/}
 
 const userSlice = createSlice({
   name: "users",
@@ -191,35 +158,33 @@ const userSlice = createSlice({
       })
 
       // Logout User
-      //extrareducer for logout
-            .addCase(logout.pending, (state) => {
-              state.isLoading = true;
-            })
-            .addCase(logout.fulfilled, (state) => {
-              // Clear user data or perform additional cleanup if needed
-              state.user = {};
-              state.isLoading = false;
-              state.isSuccess = false;
-            })
-            .addCase(logout.rejected, (state) => {
-              state.isLoading = false;
-              state.isError = true;
-            })
+      .addCase(logout.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null; // Set user to null on logout
+        state.isLoading = false;
+        state.isSuccess = false;
+      })
+      .addCase(logout.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      })
 
-   
-        .addCase(updateUserProfile.pending, (state) => { 
-          state.isLoading = true; 
-        }) 
-        .addCase(updateUserProfile.fulfilled, (state, action) => { 
-          state.user = action.payload; 
-          state.isLoading = false; 
-        }) 
-        .addCase(updateUserProfile.rejected, (state) => { 
-          state.isLoading = false; 
-          state.isError = true; 
-        }); 
-    }, 
-  }) 
+      // Update Profile
+      .addCase(updateUserProfile.pending, (state) => { 
+        state.isLoading = true; 
+      }) 
+      .addCase(updateUserProfile.fulfilled, (state, action) => { 
+        state.user = action.payload; 
+        state.isLoading = false; 
+      }) 
+      .addCase(updateUserProfile.rejected, (state) => { 
+        state.isLoading = false; 
+        state.isError = true; 
+      }); 
+    },
+});
 
 export const { reset, addUser, deleteUser, updateUser } = userSlice.actions;
 export default userSlice.reducer;

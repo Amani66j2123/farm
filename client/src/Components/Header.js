@@ -67,12 +67,12 @@ const Header = () => {
               {!isLoggedIn && (
                 <>
                   <li className="nav-item">
-                    <Link className="nav-link fs-5" to="/register" onClick={collapseNavbar}>
+                    <Link className="nav-link fs-5" to="register" onClick={collapseNavbar}>
                       Register
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link fs-5" to="/login" onClick={collapseNavbar}>
+                    <Link className="nav-link fs-5" to="login" onClick={collapseNavbar}>
                       Login
                     </Link>
                   </li>
@@ -119,17 +119,17 @@ const Header = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link fs-5" to="/manageadmin" onClick={collapseNavbar}>
+                    <Link className="nav-link fs-5" to="/mangeadmin" onClick={collapseNavbar}>
                       Admin Profile
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link fs-5" to="/manageCinfo" onClick={collapseNavbar}>
+                    <Link className="nav-link fs-5" to="/mangeCinfo" onClick={collapseNavbar}>
                       Manage Customer Info
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link fs-5" to="/payment" onClick={collapseNavbar}>
+                    <Link className="nav-link fs-5" to="payment" onClick={collapseNavbar}>
                       List of Payment
                     </Link>
                   </li>

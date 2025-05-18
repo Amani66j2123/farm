@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import logo from "./a_logo.png";
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // For Collapse functionality
 
 const Header = () => {
   const { user = null } = useSelector((state) => state.users); // Default to null

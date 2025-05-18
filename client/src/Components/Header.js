@@ -1,19 +1,17 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { logout } from "../Features/UserSlice";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import logo from "./a_logo.png";
-
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // For Collapse functionality
-import Collapse from 'react-bootstrap/Collapse';
 import { useState } from "react";
 
 const Header = () => {
-  const { user } = useSelector((state) => state.users);
+  const { user = {} } = useSelector((state) => state.users); // Default to an empty object
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
@@ -30,14 +28,12 @@ const Header = () => {
     }
   };
 
-  const userName = user.name || "Guest";
+  const userName = user.name || "Guest"; // Default to "Guest"
   const isAdmin = user.isAdmin || false;
-  const isLoggedIn = !!user;
-  
+  const isLoggedIn = !!user.name; // Check if user is logged in based on name
 
   return (
     <div>
-      {/* Navbar with logo and logout */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-success sticky-top shadow-sm">
         <div className="container-fluid">
           <Link to="Home" className="navbar-brand d-flex align-items-center" onClick={collapseNavbar}>
@@ -64,11 +60,12 @@ const Header = () => {
                   Home
                 </Link>
               </li>
-<li className="nav-item">
-                    <Link className="nav-link fs-5" to="/about" onClick={collapseNavbar}>
-                      About Farm
-                    </Link>
-                  </li>
+              <li className="nav-item">
+                <Link className="nav-link fs-5" to="/about" onClick={collapseNavbar}>
+                  About Farm
+                </Link>
+              </li>
+              {!isLoggedIn && (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link fs-5" to="/register" onClick={collapseNavbar}>
@@ -81,9 +78,9 @@ const Header = () => {
                     </Link>
                   </li>
                 </>
-              
+              )}
 
-              {isLoggedIn && userName &&(
+              {isLoggedIn && (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link fs-5" to="/customer" onClick={collapseNavbar}>
@@ -123,12 +120,12 @@ const Header = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link fs-5" to="/mangeadmin" onClick={collapseNavbar}>
+                    <Link className="nav-link fs-5" to="/manageadmin" onClick={collapseNavbar}>
                       Admin Profile
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link fs-5" to="/mangeCinfo" onClick={collapseNavbar}>
+                    <Link className="nav-link fs-5" to="/manageCinfo" onClick={collapseNavbar}>
                       Manage Customer Info
                     </Link>
                   </li>
@@ -159,16 +156,12 @@ const Header = () => {
         </div>
       </nav>
 
-      {/* Welcome Section */}
       <div className="bg-light py-4 border-bottom text-center">
         <div className="fs-5 fw-semibold text-success">
-          Welcome to Green Farm {userName}
+          Welcome to Green Farm, {userName}
         </div>
-        
       </div>
     </div>
-
-    
   );
 };
 

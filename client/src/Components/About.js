@@ -28,7 +28,7 @@ const About = () => {
 
           <h4 className="text-success mb-3">💰 Rental Pricing Details</h4>
           <p>
-            Our standard daily base price is <strong>$35</strong>. Pricing is adjusted based on the day of the week and includes a tax rate:
+            Our standard daily base price is <strong>35 OMR</strong>. Pricing is adjusted based on the day of the week and includes a tax rate:
           </p>
 
           <ul>

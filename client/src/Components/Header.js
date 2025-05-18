@@ -30,7 +30,7 @@ const Header = () => {
     }
   };
 
-  const userName = user.name || false;
+  const userName = user.name || "Guest";
   const isAdmin = user.isAdmin || false;
   const isLoggedIn = !!user;
   

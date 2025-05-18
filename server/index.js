@@ -36,7 +36,7 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
   //Middleware 
 const corsOptions = { 
-  origin: ['http://localhost:3000', 'https://farm1-mijs.onrender.com'],
+  origin: [ENV.CLIENT_URL, 'https://farm1-mijs.onrender.com'],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE", 
   credentials: true, // Enable credentials (cookies, authorization headers, etc.) 
   }; 

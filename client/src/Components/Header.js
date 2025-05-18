@@ -124,7 +124,7 @@ const Header = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link fs-5" to="/mangeCinfo" onClick={collapseNavbar}>
+                    <Link className="nav-link fs-5" to="mangeCinfo" onClick={collapseNavbar}>
                       Manage Customer Info
                     </Link>
                   </li>

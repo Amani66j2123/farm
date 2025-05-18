@@ -7,7 +7,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Header = () => {
-  const { user = {} } = useSelector((state) => state.users); // Default to an empty object
+  const { user = null } = useSelector((state) => state.users); // Default to null
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,9 +27,9 @@ const Header = () => {
     }
   };
 
-  const userName = user.name || "Guest"; // Default to "Guest"
-  const isAdmin = user.isAdmin || false;
-  const isLoggedIn = !!user.name; // Check if user is logged in based on name
+  const userName = user ? user.name : "Guest"; // Default to "Guest"
+  const isAdmin = user ? user.isAdmin : false; // Default to false if user is null
+  const isLoggedIn = !!user && !!user.name; // Check if user is logged in
 
   return (
     <div>

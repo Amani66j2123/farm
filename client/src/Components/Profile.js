@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { updateUserProfile,deleteUserAccount } from "../Features/UserSlice";
+import { updateUserProfile } from "../Features/UserSlice";
 import { Form, FormGroup, Input, Label, Button, Row, Col } from "reactstrap";
 import Location from "./Location";
 import * as ENV from "../config"; 

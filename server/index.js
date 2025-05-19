@@ -832,6 +832,26 @@ app.get("/bookings/:email", async (req, res) => {
   }
 });
 
+
+//delete
+{/*app.delete('/deleteUser/:email', async (req, res) => {
+  try {
+    const deletedUser = await UserModel.findOneAndDelete({ email: req.params.email });
+
+    if (!deletedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    res.status(500).json({ error: err.message });
+  }
+});*/}
+
+
+
+
 const port = ENV.PORT || 3001; 
 app.listen(port, () => { 
 console.log(`You are connected at port: ${port}`); 

@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import * as ENV from "../config"; 
+import { Link } from 'react-router-dom';
+import { FaEdit } from "react-icons/fa";
 
 const MyReservations = () => {
   const { email } = useParams(); // 📥 Get email from route
@@ -59,6 +61,7 @@ const MyReservations = () => {
                 <th>Payment</th>
                 <th>Total Price (OMR)</th>
                 <th>Status</th>
+                <th>Edit </th>
               </tr>
             </thead>
             <tbody>
@@ -74,6 +77,14 @@ const MyReservations = () => {
                   <td>{r.payment}</td>
                   <td>{r.totalPrice?.toFixed(2)}</td>
                   <td>{r.result}</td>
+                                       <td className="actions-cell">
+                    <Link 
+                      to={`/updateC/${r._id}`} 
+                      className="btn btn-sm btn-outline-info me-1"
+                    >
+                      <FaEdit /> Edit
+                    </Link></td>
+                  
                 </tr>
               ))}
             </tbody>

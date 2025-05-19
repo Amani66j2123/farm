@@ -98,6 +98,28 @@ export const updateUserProfile = createAsyncThunk(
     }
   }
 );
+// Async thunk for deleting a user account
+{/*export const deleteUserAccount = createAsyncThunk(
+  "users/deleteUserAccount",
+  async (email, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`http://localhost:3001/deleteUser/${email}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("Server error:", errorData);
+        return rejectWithValue(errorData.error || "Server error");
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      console.error("Network error:", err);
+      return rejectWithValue("Network error");
+    }
+  });*/}
 
 const userSlice = createSlice({
   name: "users",
@@ -182,8 +204,15 @@ const userSlice = createSlice({
       .addCase(updateUserProfile.rejected, (state) => { 
         state.isLoading = false; 
         state.isError = true; 
-      }); 
-    },
+      })
+     {/* // Delete User Account
+       .addCase(deleteUserAccount.fulfilled, (state) => {
+        state.user = null; // Clear user data upon successful deletion
+      })
+      .addCase(deleteUserAccount.rejected, (state, action) => {
+        console.error(action.payload); // Log the error
+      });*/}
+  },
 });
 
 export const { reset, addUser, deleteUser, updateUser } = userSlice.actions;

@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { updateUserProfile } from "../Features/UserSlice";
+import { updateUserProfile,deleteUserAccount } from "../Features/UserSlice";
 import { Form, FormGroup, Input, Label, Button, Row, Col } from "reactstrap";
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // For Collapse functionality
-import * as ENV from "../config"; 
-
 import Location from "./Location";
-
+import * as ENV from "../config"; 
 const Profile = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -48,31 +45,31 @@ const Profile = () => {
         navigate(`/MyReservations/${enteredEmail}`);
     };
 
-   const handleUpdate = async (event) => {
-    event.preventDefault();
+    const handleUpdate = async (event) => {
+        event.preventDefault();
 
-    if (pwd !== confirmPassword) {
-        alert("Passwords do not match.");
-        return;
-    }
+        if (pwd !== confirmPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
 
-    const formData = new FormData();  // <-- ✅ Create it here
-    formData.append("name", userName);
-    formData.append("newEmail", email);
-    formData.append("password", pwd);
-    if (newProfilePic) {
-        formData.append("profilePic", newProfilePic);
-    }
+        const formData = new FormData();
+        formData.append("name", userName);
+        formData.append("newEmail", email);
+        formData.append("password", pwd);
+        if (newProfilePic) {
+            formData.append("profilePic", newProfilePic);
+        }
 
-    try {
-        await dispatch(updateUserProfile({ email: currentEmail, formData }));
-        alert("Profile Updated.");
-        navigate("/profile");
-    } catch (error) {
-        console.error("Failed to update profile:", error);
-        alert("Failed to update profile. Please try again.");
-    }
-};
+        try {
+            await dispatch(updateUserProfile({ email: currentEmail, formData }));
+            alert("Profile Updated.");
+            navigate("/profile");
+        } catch (error) {
+            console.error("Failed to update profile:", error);
+            alert("Failed to update profile. Please try again.");
+        }
+    };
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -85,7 +82,24 @@ const Profile = () => {
             reader.readAsDataURL(file);
         }
     };
+const handleDeleteAccount = async () => {
+  const confirmDelete = window.confirm("Are you sure you want to delete your account?");
+  if (!confirmDelete) return;
 
+  try {
+    const result = await dispatch(deleteUserAccount(currentEmail));
+    
+    if (deleteUserAccount.fulfilled.match(result)) {
+      alert("Account deleted successfully.");
+      navigate("/login");
+    } else {
+      alert("Failed to delete account. Reason: " + (result.payload || "Unknown error"));
+    }
+  } catch (error) {
+    console.error("Failed to delete account:", error);
+    alert("Failed to delete account. Please try again.");
+  }
+};
     return (
         <div className="container my-5">
             <div className="text-center mb-5">
@@ -179,7 +193,7 @@ const Profile = () => {
                 <Location />
 
                 <div className="d-flex flex-wrap gap-3 mt-4">
-                    <Button color="danger" size="lg">
+                    <Button color="danger" size="lg" onClick={handleDeleteAccount}>
                         <i className="bi bi-trash me-2"></i>
                         Delete Account
                     </Button>
